@@ -10,6 +10,12 @@
 
 cc.Class({
     extends: cc.Component,
+    ctor: function() {
+        this._direction = cc.Enum({
+            X: 0,
+            Y: 1
+        })
+    },
     onLoad: function() {
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
@@ -33,28 +39,66 @@ cc.Class({
             type: cc.AnimationClip
         },
         _run: {
-            default: false,
-            type: Boolean
+            default: false
+        },
+        speed: {
+            default: 50
+        },
+        _direction: {
+            default:null
+        },
+        direction: {
+            default: null
         }
     },
 
     onKeyDown: function (e) {
         switch(e.keyCode) {
             case cc.KEY.d:
-                console.log("press d");
                 if (!this._run) {
-                    this._animation.play(this._animationClips[0].name);
                     this._run = true;
+                    this._animation.play(this._animationClips[0].name);
+                    this.speed = Math.abs(this.speed);
+                    this.direction = this._direction.X
+                }
+            case cc.KEY.a:
+                if (!this._run) {
+                    this._run = true;
+                    this._animation.play(this._animationClips[1].name);
+                    this.speed = -Math.abs(this.speed);
+                    this.direction = this._direction.X
+                }
+            case cc.KEY.w:
+                if (!this._run) {
+                    this._run = true;
+                    this._animation.play(this._animationClips[2].name);
+                    this.speed = Math.abs(this.speed);
+                    this.direction = this._direction.Y
+                }
+            case cc.KEY.s:
+                if (!this._run) {
+                    this._run = true;
+                    this._animation.play(this._animationClips[3].name);
+                    this.speed = -Math.abs(this.speed);
+                    this.direction = this._direction.Y
                 }
             break;
         }
     },
 
-    onKeyUp: function (event) {
-        switch(event.keyCode) {
+    onKeyUp: function (e) {
+        switch(e.keyCode) {
             case cc.KEY.d:
-                console.log('release d');
                 this._animation.stop(this._animationClips[0].name);
+                this._run = false;
+            case cc.KEY.a:
+                this._animation.stop(this._animationClips[1].name);
+                this._run = false;
+            case cc.KEY.w:
+                this._animation.stop(this._animationClips[2].name);
+                this._run = false;
+            case cc.KEY.s:
+                this._animation.stop(this._animationClips[3].name);
                 this._run = false;
             break;
         }
@@ -71,7 +115,11 @@ cc.Class({
     // update (dt) {},
     update (dt) {
         if (this._run) {
-            this.node.x += 100*dt
+            if (this.direction == this._direction.X) {
+                this.node.x += this.speed * dt
+            } else if (this.direction == this._direction.Y) {
+                this.node.y += this.speed * dt
+            }
         }
     }
 });

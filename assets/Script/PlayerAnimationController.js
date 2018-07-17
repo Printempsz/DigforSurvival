@@ -49,6 +49,10 @@ cc.Class({
         },
         direction: {
             default: null
+        },
+        MovingMusic: {
+            default: null,
+            url: cc.AudioClip
         }
     },
 
@@ -58,6 +62,7 @@ cc.Class({
                 if (!this._run) {
                     this._run = true;
                     this._animation.play(this._animationClips[0].name);
+                    this.current = cc.audioEngine.play(this.MovingMusic, true, 1);
                     this.speed = Math.abs(this.speed);
                     this.direction = this._direction.X
                 }
@@ -65,6 +70,7 @@ cc.Class({
                 if (!this._run) {
                     this._run = true;
                     this._animation.play(this._animationClips[1].name);
+                    this.current = cc.audioEngine.play(this.MovingMusic, true, 1);
                     this.speed = -Math.abs(this.speed);
                     this.direction = this._direction.X
                 }
@@ -72,6 +78,7 @@ cc.Class({
                 if (!this._run) {
                     this._run = true;
                     this._animation.play(this._animationClips[2].name);
+                    this.current = cc.audioEngine.play(this.MovingMusic, true, 1);
                     this.speed = Math.abs(this.speed);
                     this.direction = this._direction.Y
                 }
@@ -79,6 +86,7 @@ cc.Class({
                 if (!this._run) {
                     this._run = true;
                     this._animation.play(this._animationClips[3].name);
+                    this.current = cc.audioEngine.play(this.MovingMusic, true, 1);
                     this.speed = -Math.abs(this.speed);
                     this.direction = this._direction.Y
                 }
@@ -90,15 +98,19 @@ cc.Class({
         switch(e.keyCode) {
             case cc.KEY.d:
                 this._animation.stop(this._animationClips[0].name);
+                cc.audioEngine.stop(this.current);
                 this._run = false;
             case cc.KEY.a:
                 this._animation.stop(this._animationClips[1].name);
+                cc.audioEngine.stop(this.current);
                 this._run = false;
             case cc.KEY.w:
                 this._animation.stop(this._animationClips[2].name);
+                cc.audioEngine.stop(this.current);
                 this._run = false;
             case cc.KEY.s:
                 this._animation.stop(this._animationClips[3].name);
+                cc.audioEngine.stop(this.current);
                 this._run = false;
             break;
         }

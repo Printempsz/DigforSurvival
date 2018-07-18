@@ -17,6 +17,8 @@ cc.Class({
         })
     },
     onLoad: function() {
+        cc.director.getPhysicsManager().enabled = true;
+
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
         this._animation = this.getComponent(cc.Animation);
@@ -42,7 +44,7 @@ cc.Class({
             default: false
         },
         speed: {
-            default: 200
+            default: 50
         },
         _direction: {
             default:null
@@ -53,80 +55,139 @@ cc.Class({
         MovingMusic: {
             default: null,
             url: cc.AudioClip
+        },
+        _colLock: {
+            default:false,
+            type: cc.Boolean
+        },
+        _lastKey: {
+            default: null,
+            type:cc.Integer
+        },
+        _curKey: {
+            default: null,
+            type: cc.Integer
+        },
+        _lockKey: {
+            default: null
         }
     },
 
     onKeyDown: function (e) {
-        console.log('press');
         switch(e.keyCode) {
             case cc.KEY.d:
                 if (!this._run) {
+                    console.log(this.speed);
                     this._run = true;
                     this._animation.play(this._animationClips[0].name);
                     this.current = cc.audioEngine.play(this.MovingMusic, true, 1);
+                    this._curKey = 1;
+                    if(this._lockKey != this._curKey || this._colLock == false) {
+                        this.speed = 50;
+                    }
+                    else this.speed = 0;
                     this.speed = Math.abs(this.speed);
-                    this.direction = this._direction.X
+                    this.direction = this._direction.X;
                 }
-            break;
+                break;
             case cc.KEY.a:
                 if (!this._run) {
                     this._run = true;
                     this._animation.play(this._animationClips[1].name);
                     this.current = cc.audioEngine.play(this.MovingMusic, true, 1);
+                    this._curKey = 2;
+                    if(this._lockKey != this._curKey || this._colLock == false) {
+                        this.speed = 50;
+                    }
+                    else this.speed = 0;
                     this.speed = -Math.abs(this.speed);
-                    this.direction = this._direction.X
+                    this.direction = this._direction.X;
                 }
-            break;
+                break;
             case cc.KEY.w:
                 if (!this._run) {
                     this._run = true;
                     this._animation.play(this._animationClips[2].name);
                     this.current = cc.audioEngine.play(this.MovingMusic, true, 1);
+                    this._curKey = 3;
+                    if(this._lockKey != this._curKey || this._colLock == false) {
+                        this.speed = 50;
+                    }
+                    else this.speed = 0;
                     this.speed = Math.abs(this.speed);
-                    this.direction = this._direction.Y
+                    this.direction = this._direction.Y;
                 }
-            break;
+                break;
             case cc.KEY.s:
                 if (!this._run) {
                     this._run = true;
                     this._animation.play(this._animationClips[3].name);
                     this.current = cc.audioEngine.play(this.MovingMusic, true, 1);
+                    this._curKey = 4;
+                    if(this._lockKey != this._curKey || this._colLock == false) {
+                        this.speed = 50;
+                    }
+                    else this.speed = 0;
                     this.speed = -Math.abs(this.speed);
-                    this.direction = this._direction.Y
+                    this.direction = this._direction.Y;
                 }
-            break;
+                break;
         }
     },
 
     onKeyUp: function (e) {
-        console.log('up');
         switch(e.keyCode) {
             case cc.KEY.d:
                 this._animation.stop(this._animationClips[0].name);
                 cc.audioEngine.stop(this.current);
                 this._run = false;
-            break;
+                this._lastKey = 1;
+                break;
             case cc.KEY.a:
                 this._animation.stop(this._animationClips[1].name);
                 cc.audioEngine.stop(this.current);
                 this._run = false;
+                this._lastKey = 2;
                 break;
             case cc.KEY.w:
                 this._animation.stop(this._animationClips[2].name);
                 cc.audioEngine.stop(this.current);
                 this._run = false;
+                this._lastKey = 3;
                 break;
             case cc.KEY.s:
                 this._animation.stop(this._animationClips[3].name);
                 cc.audioEngine.stop(this.current);
                 this._run = false;
-            break;
+                this._lastKey = 4;
+                break;
         }
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
+
+    start () {
+        var manager = cc.director.getCollisionManager();
+        manager.enabled = true;
+        //manager.enabledDebugDraw = true;//碰撞边界线
+        //manager.enabledDrawBoundingBox = true; //节点边界线
+    },
+
+    onCollisionEnter: function (other,self) {//产生碰撞
+            this._colLock = true;
+            this._lockKey = this._curKey;
+            this.speed = 0;
+    },
+
+    onCollisionStay: function (other,self) {//碰撞保持
+        this._colLock = true;
+    },
+
+    onCollisionExit: function (other,self) {//碰撞结束
+        this._colLock = false;
+    },
 
     // update (dt) {},
     update (dt) {

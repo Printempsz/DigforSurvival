@@ -22,7 +22,12 @@ cc.Class({
         },
         brickSize: {
             default: 50
-        }
+        },
+        player: {
+            default: null,
+            type: cc.Prefab
+        },
+        _Game: null
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -31,7 +36,13 @@ cc.Class({
         
     },
 
+    init: function() {
+
+    },
+
     start () {
+        console.log("map")
+        this._Game = cc.find("Game");
         var mapWidth = this.node.width;
         var mapHeight = this.node.height;
         var xNumbers = mapWidth/this.brickSize;
@@ -71,6 +82,15 @@ cc.Class({
                     node.parent = this.node;
                     node.setPosition(j * this.brickSize, i * this.brickSize);
                 }
+            }
+        }
+        for (var i = 1; i <= xNumbers - 2; i++) {
+            if (map[yNumbers - 3][i - 1] < 0.5) {
+                var node = cc.instantiate(this._Game.getComponent('Game').player);
+                var scene = cc.director.getScene();
+                node.parent = scene;
+                node.setPosition(i * this.brickSize + (this.brickSize / 2), (yNumbers - 2) * this.brickSize + (this.brickSize / 2));
+                break;
             }
         }
     },

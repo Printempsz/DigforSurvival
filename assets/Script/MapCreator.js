@@ -64,7 +64,6 @@ cc.Class({
             }
             map.push(line);
         }
-        console.log(map);
         for (var i = 1; i <= yNumbers - 2; i++) {
             for (var j = 1; j <= xNumbers - 2; j++) {
                 if (map[i - 1][j - 1] >= 0.5) {

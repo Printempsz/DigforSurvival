@@ -179,6 +179,11 @@ cc.Class({
             console.log("start");
             this._colLock = true;
             this._lockKey = this._curKey;
+            if (this.direction == this._direction.X) {
+                this.node.x -= this.speed * 0.1
+            } else if (this.direction == this._direction.Y) {
+                this.node.y -= this.speed * 0.1
+            }
             this.speed = 0;
     },
 

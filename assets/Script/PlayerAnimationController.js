@@ -42,7 +42,7 @@ cc.Class({
             default: false
         },
         speed: {
-            default: 50
+            default: 200
         },
         _direction: {
             default:null
@@ -57,6 +57,7 @@ cc.Class({
     },
 
     onKeyDown: function (e) {
+        console.log('press');
         switch(e.keyCode) {
             case cc.KEY.d:
                 if (!this._run) {
@@ -66,6 +67,7 @@ cc.Class({
                     this.speed = Math.abs(this.speed);
                     this.direction = this._direction.X
                 }
+            break;
             case cc.KEY.a:
                 if (!this._run) {
                     this._run = true;
@@ -74,6 +76,7 @@ cc.Class({
                     this.speed = -Math.abs(this.speed);
                     this.direction = this._direction.X
                 }
+            break;
             case cc.KEY.w:
                 if (!this._run) {
                     this._run = true;
@@ -82,6 +85,7 @@ cc.Class({
                     this.speed = Math.abs(this.speed);
                     this.direction = this._direction.Y
                 }
+            break;
             case cc.KEY.s:
                 if (!this._run) {
                     this._run = true;
@@ -95,19 +99,23 @@ cc.Class({
     },
 
     onKeyUp: function (e) {
+        console.log('up');
         switch(e.keyCode) {
             case cc.KEY.d:
                 this._animation.stop(this._animationClips[0].name);
                 cc.audioEngine.stop(this.current);
                 this._run = false;
+            break;
             case cc.KEY.a:
                 this._animation.stop(this._animationClips[1].name);
                 cc.audioEngine.stop(this.current);
                 this._run = false;
+                break;
             case cc.KEY.w:
                 this._animation.stop(this._animationClips[2].name);
                 cc.audioEngine.stop(this.current);
                 this._run = false;
+                break;
             case cc.KEY.s:
                 this._animation.stop(this._animationClips[3].name);
                 cc.audioEngine.stop(this.current);
@@ -119,10 +127,6 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
-
-    start () {
-
-    },
 
     // update (dt) {},
     update (dt) {

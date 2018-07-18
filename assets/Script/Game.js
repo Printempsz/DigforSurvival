@@ -14,6 +14,10 @@ cc.Class({
             default: null,
             type: cc.Node
         },
+        camera: {
+            default: null,
+            type: cc.Node
+        },
         player: null
     },
 
@@ -21,6 +25,7 @@ cc.Class({
 
     onLoad () {
         this.map.getComponent('MapCreator').enabled = false;
+        this.camera.getComponent('CameraController').enabled = false;
         var self = this;
         var players = [];
         cc.loader.loadResDir("Prefabs/players", function (err, prefabs) {
@@ -28,6 +33,7 @@ cc.Class({
             self.player = prefabs[index];
             console.log(self.map)
             self.map.getComponent('MapCreator').enabled = true;
+            self.camera.getComponent('CameraController').enabled = true;
         });
     },
 

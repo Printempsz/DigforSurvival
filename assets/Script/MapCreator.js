@@ -88,8 +88,8 @@ cc.Class({
             if (map[yNumbers - 3][i - 1] < 0.5) {
                 var node = cc.instantiate(this._Game.getComponent('Game').player);
                 var scene = cc.director.getScene();
-                node.parent = scene;
                 node.setPosition(i * this.brickSize + (this.brickSize / 2), (yNumbers - 2) * this.brickSize + (this.brickSize / 2));
+                scene.addChild(node, 1, 'player');
                 break;
             }
         }

@@ -15,10 +15,8 @@ cc.Class({
     },
     properties: {
         camera: null,
-        player: {
-            default: null,
-            type: cc.Node
-        }
+        player: null,
+        _Game: null
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -26,7 +24,9 @@ cc.Class({
     // onLoad () {},
 
     start () {
-
+        this.player = cc.director.getScene().getChildByName('player');
+        console.log(cc.director.getScene())
+        this.camera.addTarget(this.player);
     },
 
     update (dt) {

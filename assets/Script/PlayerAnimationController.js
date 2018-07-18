@@ -171,21 +171,24 @@ cc.Class({
     start () {
         var manager = cc.director.getCollisionManager();
         manager.enabled = true;
-        //manager.enabledDebugDraw = true;//碰撞边界线
+        manager.enabledDebugDraw = true;//碰撞边界线
         //manager.enabledDrawBoundingBox = true; //节点边界线
     },
 
     onCollisionEnter: function (other,self) {//产生碰撞
+            console.log("start");
             this._colLock = true;
             this._lockKey = this._curKey;
             this.speed = 0;
     },
 
     onCollisionStay: function (other,self) {//碰撞保持
+        console.log("ING");
         this._colLock = true;
     },
 
     onCollisionExit: function (other,self) {//碰撞结束
+        console.log("end");
         this._colLock = false;
     },
 

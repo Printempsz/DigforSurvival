@@ -9,10 +9,24 @@
   "collision-matrix": [
     [
       false,
+      true,
       true
     ],
     [
       true,
+      false,
+      null,
+      true
+    ],
+    [
+      true,
+      false,
+      false
+    ],
+    [
+      false,
+      true,
+      false,
       false
     ]
   ],
@@ -22,8 +36,10 @@
   "fit-height": true,
   "fit-width": false,
   "group-list": [
-    "object",
-    "player"
+    "brick",
+    "player",
+    "flame",
+    "border"
   ],
   "simulator-orientation": false,
   "simulator-resolution": {
@@ -31,6 +47,5 @@
     "width": 960
   },
   "use-customize-simulator": false,
-  "use-project-simulator-setting": false,
-  "start-scene": "current"
+  "use-project-simulator-setting": false
 }

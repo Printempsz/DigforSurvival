@@ -77,7 +77,7 @@ cc.Class({
         switch(e.keyCode) {
             case cc.KEY.d:
                 if (!this._run) {
-                    console.log(this.speed);
+                    // console.log(this.speed);
                     this._run = true;
                     this._animation.play(this._animationClips[0].name);
                     this.current = cc.audioEngine.play(this.MovingMusic, true, 1);
@@ -176,7 +176,7 @@ cc.Class({
     },
 
     onCollisionEnter: function (other,self) {//产生碰撞
-            console.log("start");
+            // console.log("start");
             this._colLock = true;
             this._lockKey = this._curKey;
             if (this.direction == this._direction.X) {
@@ -188,12 +188,12 @@ cc.Class({
     },
 
     onCollisionStay: function (other,self) {//碰撞保持
-        console.log("ING");
+        // console.log("ING");
         this._colLock = true;
     },
 
     onCollisionExit: function (other,self) {//碰撞结束
-        console.log("end");
+        // console.log("end");
         this._colLock = false;
     },
 

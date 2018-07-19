@@ -221,6 +221,17 @@
     "player": {
       "__uuid__": "e6d15745-f3a4-4f96-acba-b28ef1cd178c"
     },
+    "servants": [
+      {
+        "__uuid__": "cabcebb8-c97b-4a30-8ace-3ad29c11c50f"
+      },
+      {
+        "__uuid__": "c6897afd-b592-4f31-8dc2-8ce9bdae2e21"
+      },
+      {
+        "__uuid__": "02dd9f81-fd66-4923-8aa8-fa9d1cafb0d6"
+      }
+    ],
     "_Game": null
   },
   {
@@ -232,7 +243,7 @@
     },
     "_children": [],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 8
@@ -285,7 +296,7 @@
     "node": {
       "__id__": 7
     },
-    "_enabled": true,
+    "_enabled": false,
     "_targets": [
       {
         "__id__": 4
@@ -338,8 +349,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 750,
-      "height": 750
+      "width": 1000,
+      "height": 3000
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -347,8 +358,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 375,
-      "y": 375
+      "x": 500,
+      "y": 1500
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -367,8 +378,8 @@
     "_enabled": true,
     "_designResolution": {
       "__type__": "cc.Size",
-      "width": 750,
-      "height": 750
+      "width": 1000,
+      "height": 3000
     },
     "_fitWidth": false,
     "_fitHeight": true

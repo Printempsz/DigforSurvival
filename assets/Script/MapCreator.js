@@ -27,6 +27,10 @@ cc.Class({
             default: null,
             type: cc.Prefab
         },
+        servants: {
+            default: [],
+            type: cc.Prefab
+        },
         _Game: null
     },
 
@@ -78,22 +82,54 @@ cc.Class({
         for (var i = 1; i <= yNumbers - 2; i++) {
             for (var j = 1; j <= xNumbers - 2; j++) {
                 if (map[i - 1][j - 1] >= 0.5) {
+                    map[i - 1][j - 1] = 1;
                     var node = cc.instantiate(this.brick);
                     node.parent = this.node;
                     node.setPosition(j * this.brickSize, i * this.brickSize);
+                } else {
+                    map[i - 1][j - 1] = 0;
                 }
             }
         }
         for (var i = 1; i <= xNumbers - 2; i++) {
-            if (map[yNumbers - 3][i - 1] < 0.5) {
+            if (!map[yNumbers - 3][i - 1]) {
+                map[yNumbers - 3][i - 1] = 1;
                 var node = cc.instantiate(this._Game.getComponent('Game').player);
                 var scene = cc.director.getScene();
                 node.setPosition(i * this.brickSize + (this.brickSize / 2), (yNumbers - 2) * this.brickSize + (this.brickSize / 2));
-                scene.addChild(node, 1, 'player');
+                scene.addChild(node, 100, 'player');
                 break;
             }
         }
+        var servant_id = 0;
+        var scene = cc.director.getScene();
+        var servantNode = new cc.Node();
+        scene.addChild(servantNode, 1, 'Servants');
+        for (var i = 1; i <= yNumbers - 2; i++) {
+            for (var j = 1; j <= xNumbers - 2; j++) {
+                if (!map[i - 1][j - 1]) {
+                    if (Math.random() <= 0.05 ? true : false) {
+                        var index = Math.floor(Math.random() * this.servants.length);
+                        var servant = cc.instantiate(this.servants[index]);
+                        servant.tag = this.serventName(index);
+                        servant.setPosition(j * this.brickSize + (this.brickSize / 2), i * this.brickSize + (this.brickSize / 2));
+                        servantNode.addChild(servant, 1, 'Servant_' + this.serventName(index) + '_' + servant_id++);
+                    }                    
+                }
+            }
+        }
     },
+
+    serventName: function (index) {
+        switch (index) {
+            case 0:
+                return 'ATK'
+            case 1:
+                return 'DEF'
+            case 2:
+                return 'MG'
+        }
+    }
 
     // update (dt) {},
 });

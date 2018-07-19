@@ -18,7 +18,11 @@ cc.Class({
             default: null,
             type: cc.Node
         },
-        player: null
+        player: null,
+        UIController: {
+            default: null,
+            type: cc.Node
+        }
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -30,14 +34,16 @@ cc.Class({
         
         this.map.getComponent('MapCreator').enabled = false;
         this.camera.getComponent('CameraController').enabled = false;
+        this.UIController.getComponent('UIController').enabled = false;
         var self = this;
         var players = [];
         cc.loader.loadResDir("Prefabs/players", function (err, prefabs) {
             var index = Math.floor(Math.random() * prefabs.length);
             self.player = prefabs[index];
-            console.log(self.map)
+            // console.log(self.map)
             self.map.getComponent('MapCreator').enabled = true;
             self.camera.getComponent('CameraController').enabled = true;
+            self.UIController.getComponent('UIController').enabled = true;
         });
     },
 

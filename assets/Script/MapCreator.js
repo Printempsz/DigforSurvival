@@ -31,6 +31,14 @@ cc.Class({
             default: [],
             type: cc.Prefab
         },
+        hammer: {
+            default: null,
+            type: cc.Prefab
+        },
+        HPbag: {
+            default: null,
+            type: cc.Prefab
+        },
         _Game: null
     },
 
@@ -102,19 +110,34 @@ cc.Class({
             }
         }
         var servant_id = 0;
+        var HPbag_id = 0;
+        var hammer_id = 0;
         var scene = cc.director.getScene();
         var servantNode = new cc.Node();
         scene.addChild(servantNode, 1, 'Servants');
         for (var i = 1; i <= yNumbers - 2; i++) {
             for (var j = 1; j <= xNumbers - 2; j++) {
                 if (!map[i - 1][j - 1]) {
-                    if (Math.random() <= 0.05 ? true : false) {
+                    var flag = Math.random();
+                    if (flag <= 0.05) {
                         var index = Math.floor(Math.random() * this.servants.length);
                         var servant = cc.instantiate(this.servants[index]);
                         servant.tag = this.serventName(index);
                         servant.setPosition(j * this.brickSize + (this.brickSize / 2), i * this.brickSize + (this.brickSize / 2));
                         servantNode.addChild(servant, 1, 'Servant_' + this.serventName(index) + '_' + servant_id++);
-                    }                    
+                    }
+                    else if (flag <= 0.1) {
+                        var HPbag = cc.instantiate(this.HPbag);
+                        HPbag.tag = 'HPbag';
+                        HPbag.setPosition(j * this.brickSize + (this.brickSize / 2), i * this.brickSize + (this.brickSize / 2));
+                        servantNode.addChild(HPbag, 1, 'HPbag_' + HPbag_id++);
+                    }
+                    else if (flag <= 0.15) {
+                        var hammer = cc.instantiate(this.hammer);
+                        hammer.tag = 'hammer';
+                        hammer.setPosition(j * this.brickSize + (this.brickSize / 2), i * this.brickSize + (this.brickSize / 2));
+                        servantNode.addChild(hammer, 1, 'hammer_' + HPbag_id++);
+                    }
                 }
             }
         }

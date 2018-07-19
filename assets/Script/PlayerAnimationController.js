@@ -169,9 +169,9 @@ cc.Class({
     // onLoad () {},
 
     start () {
-        var manager = cc.director.getCollisionManager();
-        manager.enabled = true;
-        manager.enabledDebugDraw = true;//碰撞边界线
+        // var manager = cc.director.getCollisionManager();
+        // manager.enabled = true;
+        // manager.enabledDebugDraw = true;//碰撞边界线
         //manager.enabledDrawBoundingBox = true; //节点边界线
     },
 

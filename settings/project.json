@@ -16,6 +16,7 @@
       true,
       false,
       null,
+      true,
       true
     ],
     [
@@ -26,6 +27,13 @@
     [
       false,
       true,
+      false,
+      false
+    ],
+    [
+      false,
+      true,
+      false,
       false,
       false
     ]
@@ -39,7 +47,8 @@
     "brick",
     "player",
     "flame",
-    "border"
+    "border",
+    "servant"
   ],
   "simulator-orientation": false,
   "simulator-resolution": {

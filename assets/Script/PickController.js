@@ -27,42 +27,45 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
-        _atk: {
-            default: false,
-            type: cc.Boolean
+        _countATK: {
+            default: 0,
+            type: cc.Integer
+        },
+        _countDEF: {
+            default:0,
+            type: cc.Integer
+        },
+        _countMG: {
+            default:0,
+            type: cc.Integer
         }
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad: function() {
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-    },
+    // onLoad () {},
 
-    onDestroy () {
-        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
-        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
-    },
-    onKeyDown: function(e) {
-        if(e.keyCode == cc.KEY.j) {
-            this._atk = true;
-        }
-    },
-
-    onKeyUp: function(e) {
-        if(e.keyCode == cc.KEY.j) {
-            this._atk = false;
-        }
-    },
     start () {
-        var manager = cc.director.getCollisionManager();
-        manager.enabled = true;
-        manager.enabledDebugDraw = true;//碰撞边界线
     },
 
     onCollisionEnter: function (other,self) {
-        if(this._atk) other.node.destroy();
+        console.log(other.node._tag);
+        switch(other.node._tag) {
+            case "ATK":
+                this._countATK++;
+                other.node.destroy();
+                break;
+            case "DEF":
+                this._countDEF++;
+                other.node.destroy();
+                break;
+            case "MG":
+                this._countMG++;
+                other.node.destroy();
+                break;
+        }
+        console.log(this._countATK,this._countDEF,this._countMG)
     }
+
     // update (dt) {},
 });

@@ -49,7 +49,6 @@ cc.Class({
     start () {
         this.player = cc.find('player');
         this.counter = this.player.getComponent('SuppliesController');
-        this.PopInfo('ATK');
     },
 
     update (dt) {

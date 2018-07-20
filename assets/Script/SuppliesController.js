@@ -57,6 +57,7 @@ cc.Class({
     },
 
     start () {
+        this.UIController = cc.find('Canvas/UI').getComponent('UIController');
     },
 
     onKeyDown: function (e) {
@@ -85,22 +86,27 @@ cc.Class({
             case "ATK":
                 this._countATK++;
                 other.node.destroy();
+                this.UIController.PopInfo('ATK');
                 break;
             case "DEF":
                 this._countDEF++;
                 other.node.destroy();
+                this.UIController.PopInfo('DEF');
                 break;
             case "MG":
                 this._countMG++;
                 other.node.destroy();
+                this.UIController.PopInfo('MG');
                 break;
             case "hammer":
                 this._countHM++;
                 other.node.destroy();
+                this.UIController.PopInfo('HM');
                 break;
             case "HPbag":
                 this._countHPB++;
                 other.node.destroy();
+                this.UIController.PopInfo('HPBag');
                 break;
         }
     }

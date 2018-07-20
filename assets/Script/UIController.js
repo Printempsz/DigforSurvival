@@ -23,6 +23,14 @@ cc.Class({
        num_MG: {
            default:null,
            type: cc.Label
+       },
+       num_HM: {
+           default:null,
+           type: cc.Label
+       },
+       num_HPB: {
+           default:null,
+           type:cc.Label
        }
     },
 
@@ -39,5 +47,7 @@ cc.Class({
         this.num_ATK.string = this.counter._countATK;
         this.num_DEF.string = this.counter._countDEF;
         this.num_MG.string = this.counter._countMG;
+        this.num_HM.string = this.counter._countHM;
+        this.num_HPB.string = this.counter._countHPB;
     }
 });

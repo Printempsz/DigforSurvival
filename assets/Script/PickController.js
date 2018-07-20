@@ -38,6 +38,14 @@ cc.Class({
         _countMG: {
             default:0,
             type: cc.Integer
+        },
+        _countHM: {
+            default: 0,
+            type: cc.Integer
+        },
+        _countHPB: {
+            default:0,
+            type: cc.Integer
         }
     },
 
@@ -63,8 +71,15 @@ cc.Class({
                 this._countMG++;
                 other.node.destroy();
                 break;
+            case "hammer":
+                this._countHM++;
+                other.node.destroy();
+                break;
+            case "HPbag":
+                this._countHPB++;
+                other.node.destroy();
+                break;
         }
-        console.log(this._countATK,this._countDEF,this._countMG)
     }
 
     // update (dt) {},

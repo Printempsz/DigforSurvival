@@ -12,30 +12,42 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-       num_ATK: {
-           default: null,
-           type: cc.Label
-       },
-       num_DEF: {
-           default: null,
-           type: cc.Label
-       },
-       num_MG: {
-           default:null,
-           type: cc.Label
-       },
-       num_HM: {
-           default:null,
-           type: cc.Label
-       },
-       num_HPB: {
-           default:null,
-           type:cc.Label
-       },
-       Pop: {
-           default: null,
-           type: cc.Node
-       }
+        HP: {
+            default:null,
+            type:cc.Label
+        },
+        ATK: {
+            default:null,
+            type: cc.Label
+        },
+        DEF: {
+            default:null,
+            type:cc.Label
+        },
+        num_ATK: {
+            default: null,
+            type: cc.Label
+        },
+        num_DEF: {
+            default: null,
+            type: cc.Label
+        },
+        num_MG: {
+            default:null,
+            type: cc.Label
+        },
+        num_HM: {
+            default:null,
+            type: cc.Label
+        },
+        num_HPB: {
+            default:null,
+            type:cc.Label
+        },
+        Pop: {
+            default: null,
+            type: cc.Node
+        }
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -57,6 +69,9 @@ cc.Class({
         this.num_MG.string = this.counter._countMG;
         this.num_HM.string = this.counter._countHM;
         this.num_HPB.string = this.counter._countHPB;
+        this.HP.string = this.counter._HP;
+        this.ATK.string = this.counter._ATK;
+        this.DEF.string = this.counter._DEF;
     },
 
     PopInfo: function (type) {

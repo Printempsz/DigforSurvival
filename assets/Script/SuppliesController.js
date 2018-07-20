@@ -12,21 +12,22 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
+        _timer: {
+            default: 0,
+            type: cc.Integer
+        },
+        _HP: {
+            default: 100,
+            type: cc.Integer
+        },
+        _ATK: {
+            default: 0,
+            type: cc.Integer
+        },
+        _DEF: {
+            default: 0,
+            type: cc.Integer
+        },
         _countATK: {
             default: 0,
             type: cc.Integer
@@ -63,19 +64,31 @@ cc.Class({
     onKeyDown: function (e) {
         switch(e.keyCode) {
             case cc.KEY.y:
-                if(this._countATK > 0) this._countATK --;
+                if(this._countATK > 0) {
+                    this._countATK --;
+                    this._ATK += 5;
+                }
                 break;
             case cc.KEY.u: 
-                if(this._countDEF > 0) this._countDEF --;
+                if(this._countDEF > 0) {
+                    this._countDEF --;
+                    this._DEF += 5;
+                }
                 break;
             case cc.KEY.i:
-                if(this._countHG > 0) this._countMG --;
+                if(this._countMG > 0) {
+                    this._countMG --;
+                    this._ATK += 5;
+                    this._DEF += 5;
+                    this._countHM += 5;
+                    this._HP += 5;
+                }
                 break;
-             case cc.KEY.o:
-                if(this._countHM > 0) this._countHM --;
-                break;
-            case cc.KEY.p:
-                if(this._countHPB > 0) this._countHPB --;
+            case cc.KEY.o:
+                if(this._countHPB > 0) {
+                    this._countHPB --;
+                    this._HP += 5;
+                }
                 break;
         }
     },
@@ -99,7 +112,7 @@ cc.Class({
                 this.UIController.PopInfo('MG');
                 break;
             case "hammer":
-                this._countHM++;
+                this._countHM += 5;
                 other.node.destroy();
                 this.UIController.PopInfo('HM');
                 break;
@@ -109,7 +122,14 @@ cc.Class({
                 this.UIController.PopInfo('HPBag');
                 break;
         }
-    }
+    },
 
-    // update (dt) {},
+    update (dt) {
+        this._timer++;
+        console.log(this._HP,this._ATK,this._DEF,this._countHM);
+        if(this._timer > 59) {
+            if(this._ATK > 0)this._ATK--;
+            this._timer = 0;
+        }
+    },
 });

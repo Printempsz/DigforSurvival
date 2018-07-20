@@ -59,10 +59,15 @@ cc.Class({
         var manager = cc.director.getCollisionManager();
         manager.enabled = true;
         manager.enabledDebugDraw = true;//碰撞边界线
+        this.counter = this.node.parent.getComponent('SuppliesController');
+
     },
 
     onCollisionEnter: function (other,self) {
-        // if(this._atk) other.node.destroy();
+        if(this._atk && this.counter._countHM) {
+            other.node.destroy();
+            this.counter._countHM--;
+        }
     }
     // update (dt) {},
 });

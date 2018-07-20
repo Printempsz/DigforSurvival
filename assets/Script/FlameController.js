@@ -62,7 +62,7 @@ cc.Class({
     },
 
     onCollisionEnter: function (other,self) {
-        if(this._atk) other.node.destroy();
+        // if(this._atk) other.node.destroy();
     }
     // update (dt) {},
 });

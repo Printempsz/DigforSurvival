@@ -30,7 +30,7 @@ cc.Class({
     onLoad () {
         var manager = cc.director.getCollisionManager();
         manager.enabled = true;
-        manager.enabledDebugDraw = true;//碰撞辅助线
+        //manager.enabledDebugDraw = true;//碰撞辅助线
         
         this.map.getComponent('MapCreator').enabled = false;
         this.camera.getComponent('CameraController').enabled = false;

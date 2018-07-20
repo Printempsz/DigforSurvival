@@ -56,11 +56,7 @@ cc.Class({
         }
     },
     start () {
-        var manager = cc.director.getCollisionManager();
-        manager.enabled = true;
-        manager.enabledDebugDraw = true;//碰撞边界线
         this.counter = this.node.parent.getComponent('SuppliesController');
-
     },
 
     onCollisionEnter: function (other,self) {

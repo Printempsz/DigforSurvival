@@ -321,7 +321,12 @@
     "node": {
       "__id__": 1
     },
-    "_enabled": true
+    "_enabled": true,
+    "_countATK": 0,
+    "_countDEF": 0,
+    "_countMG": 0,
+    "_countHM": 0,
+    "_countHPB": 0
   },
   {
     "__type__": "cc.PrefabInfo",

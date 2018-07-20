@@ -51,9 +51,32 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad () {
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
+    },
 
     start () {
+    },
+
+    onKeyDown: function (e) {
+        switch(e.keyCode) {
+            case cc.KEY.y:
+                if(this._countATK > 0) this._countATK --;
+                break;
+            case cc.KEY.u: 
+                if(this._countDEF > 0) this._countDEF --;
+                break;
+            case cc.KEY.i:
+                if(this._countHG > 0) this._countMG --;
+                break;
+             case cc.KEY.o:
+                if(this._countHM > 0) this._countHM --;
+                break;
+            case cc.KEY.p:
+                if(this._countHPB > 0) this._countHPB --;
+                break;
+        }
     },
 
     onCollisionEnter: function (other,self) {

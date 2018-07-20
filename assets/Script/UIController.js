@@ -40,7 +40,7 @@ cc.Class({
 
     start () {
         this.player = cc.find('player');
-        this.counter = this.player.getComponent('PickController');
+        this.counter = this.player.getComponent('SuppliesController');
     },
 
     update (dt) {

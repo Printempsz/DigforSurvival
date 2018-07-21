@@ -47,6 +47,10 @@ cc.Class({
         Pop: {
             default: null,
             type: cc.Node
+        },
+        QTE: {
+            default: null,
+            type: cc.Node
         }
     },
 
@@ -61,6 +65,9 @@ cc.Class({
     start () {
         this.player = cc.find('player');
         this.counter = this.player.getComponent('SuppliesController');
+        this.node.parent.zIndex = 100;
+        this.QTE.zIndex = 100;
+        this.ActiveQTE();
     },
 
     update (dt) {
@@ -112,5 +119,35 @@ cc.Class({
             hm.getComponent(cc.Animation).on('finished', (hm) => {hm.active = false});
             break;
         }
+    },
+
+    ActiveQTE: function () {
+        var qte = this.QTE;
+        var height = qte.height;
+        var width = qte.width;
+        var Items = [];
+        for (var i = 0; i < 8; i++) {
+            Items.push(this.CreateQTEitem(width/3, height/3, cc.Color.RED))
+        }
+        Items.push(this.CreateQTEitem(width/3, height/3, cc.Color.BLUE));
+        Items.sort(function(a,b){ return Math.random()>.5 ? -1 : 1;});
+        for (var i = 0; i < Items.length; i++) {
+            qte.addChild(Items[i], 1, 'QTE_' + i);
+        }
+    },
+
+    CreateQTEitem: function (width, height, color) {
+        var item = new cc.Node();
+        item.height = height;
+        item.width = width;
+        item.addComponent(cc.Graphics);
+        var ctx = item.getComponent(cc.Graphics);
+        ctx.rect(0,0,item.width,item.height);
+        ctx.fillColor = color;
+        ctx.lineWidth = 6;
+        ctx.strokeColor = cc.Color.WHITE;
+        ctx.stroke();
+        ctx.fill();
+        return item;
     }
 });

@@ -94,7 +94,7 @@ cc.Class({
     },
 
     onCollisionEnter: function (other,self) {
-        console.log(other.node._tag);
+        //console.log(other.node._tag);
         switch(other.node._tag) {
             case "ATK":
                 this._countATK++;
@@ -126,7 +126,7 @@ cc.Class({
 
     update (dt) {
         this._timer++;
-        console.log(this._HP,this._ATK,this._DEF,this._countHM);
+        //console.log(this._HP,this._ATK,this._DEF,this._countHM);
         if(this._timer > 59) {
             if(this._ATK > 0)this._ATK--;
             this._timer = 0;

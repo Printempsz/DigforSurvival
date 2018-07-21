@@ -27,7 +27,7 @@ cc.Class({
         this.player = cc.director.getScene().getChildByName('player');
         console.log(cc.director.getScene())
         this.camera.addTarget(this.player);
-        this.camera.addTarget(cc.director.getScene().getChildByName('Servants'))
+        this.camera.addTarget(cc.director.getScene().getChildByName('Servants'));
     },
 
     update (dt) {

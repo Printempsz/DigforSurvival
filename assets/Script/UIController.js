@@ -51,6 +51,10 @@ cc.Class({
         QTE: {
             default: null,
             type: cc.Node
+        },
+        Tips: {
+            default: null,
+            type: cc.Label
         }
     },
 
@@ -67,7 +71,6 @@ cc.Class({
         this.counter = this.player.getComponent('SuppliesController');
         this.node.parent.zIndex = 100;
         this.QTE.zIndex = 100;
-        this.ActiveQTE();
     },
 
     update (dt) {
@@ -121,33 +124,14 @@ cc.Class({
         }
     },
 
-    ActiveQTE: function () {
-        var qte = this.QTE;
-        var height = qte.height;
-        var width = qte.width;
-        var Items = [];
-        for (var i = 0; i < 8; i++) {
-            Items.push(this.CreateQTEitem(width/3, height/3, cc.Color.RED))
-        }
-        Items.push(this.CreateQTEitem(width/3, height/3, cc.Color.BLUE));
-        Items.sort(function(a,b){ return Math.random()>.5 ? -1 : 1;});
-        for (var i = 0; i < Items.length; i++) {
-            qte.addChild(Items[i], 1, 'QTE_' + i);
-        }
+    ActiveQTE: function (target, type) {
+        var QTEController = this.QTE.getComponent('QTEController');
+        QTEController.CreateItems(target, type);
     },
 
-    CreateQTEitem: function (width, height, color) {
-        var item = new cc.Node();
-        item.height = height;
-        item.width = width;
-        item.addComponent(cc.Graphics);
-        var ctx = item.getComponent(cc.Graphics);
-        ctx.rect(0,0,item.width,item.height);
-        ctx.fillColor = color;
-        ctx.lineWidth = 6;
-        ctx.strokeColor = cc.Color.WHITE;
-        ctx.stroke();
-        ctx.fill();
-        return item;
+    ActiveTips: function (text, color) {
+        this.Tips.string = text;
+        this.Tips.node.color = color;
+        this.Tips.getComponent(cc.Animation).play('TipsShow');
     }
 });

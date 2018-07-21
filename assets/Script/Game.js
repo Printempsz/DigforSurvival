@@ -22,6 +22,10 @@ cc.Class({
         UIController: {
             default: null,
             type: cc.Node
+        },
+        QTE: {
+            default: null,
+            type: cc.Node
         }
     },
 
@@ -35,6 +39,7 @@ cc.Class({
         this.map.getComponent('MapCreator').enabled = false;
         this.camera.getComponent('CameraController').enabled = false;
         this.UIController.getComponent('UIController').enabled = false;
+        this.QTE.getComponent('QTEController').enabled = false;
         var self = this;
         var players = [];
         cc.loader.loadResDir("Prefabs/players", function (err, prefabs) {
@@ -44,6 +49,8 @@ cc.Class({
             self.map.getComponent('MapCreator').enabled = true;
             self.camera.getComponent('CameraController').enabled = true;
             self.UIController.getComponent('UIController').enabled = true;
+            self.QTE.getComponent('QTEController').enabled = true;
+
         });
     },
 

@@ -69,8 +69,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 130,
-      "y": 104
+      "x": 0,
+      "y": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -129,8 +129,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -130,
-      "y": -104
+      "x": 0,
+      "y": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -322,11 +322,17 @@
       "__id__": 1
     },
     "_enabled": true,
+    "_timer": 0,
+    "_HP": 100,
+    "_ATK": 0,
+    "_DEF": 0,
     "_countATK": 0,
     "_countDEF": 0,
     "_countMG": 0,
     "_countHM": 0,
-    "_countHPB": 0
+    "_countHPB": 0,
+    "_QTEActive": false,
+    "QTE": null
   },
   {
     "__type__": "cc.PrefabInfo",

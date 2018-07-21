@@ -169,6 +169,7 @@ cc.Class({
     // onLoad () {},
 
     start () {
+        window.io("http://localhost:7777");
     },
 
     onCollisionEnter: function (other,self) {//产生碰撞

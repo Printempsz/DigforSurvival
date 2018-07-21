@@ -47,7 +47,8 @@ cc.Class({
         _countHPB: {
             default:0,
             type: cc.Integer
-        }
+        },
+        _QTEActive: false
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -59,6 +60,7 @@ cc.Class({
 
     start () {
         this.UIController = cc.find('Canvas/UI').getComponent('UIController');
+        this.QTECOntroller = cc.find('Canvas/UI/QTE').getComponent('QTECOntroller');
     },
 
     onKeyDown: function (e) {
@@ -93,23 +95,53 @@ cc.Class({
         }
     },
 
+    getSupplies: function (other,type, flag) {
+        if (flag) {
+            switch(type) {
+                case "ATK":
+                    this._countATK++;
+                    other.node.destroy();
+                    this.UIController.PopInfo('ATK');
+                    this._QTEActive = false;
+                    break;
+                case "DEF":
+                    this._countDEF++;
+                    other.node.destroy();
+                    this.UIController.PopInfo('DEF');
+                    this._QTEActive = false;
+                    break;
+                case "MG":
+                    this._countMG++;
+                    other.node.destroy();
+                    this.UIController.PopInfo('MG');
+                    this._QTEActive = false;
+                    break;
+            }
+        } else {
+            this._QTEActive = false;
+        }
+    },
+
     onCollisionEnter: function (other,self) {
         //console.log(other.node._tag);
         switch(other.node._tag) {
             case "ATK":
-                this._countATK++;
-                other.node.destroy();
-                this.UIController.PopInfo('ATK');
+                if (!this._QTEActive) {
+                    this.UIController.ActiveQTE(other, 'ATK');
+                    this._QTEActive = true;
+                }
                 break;
             case "DEF":
-                this._countDEF++;
-                other.node.destroy();
-                this.UIController.PopInfo('DEF');
+                if (!this._QTEActive) {
+                    this.UIController.ActiveQTE(other, 'DEF');
+                    this._QTEActive = true;
+                }
                 break;
             case "MG":
-                this._countMG++;
-                other.node.destroy();
-                this.UIController.PopInfo('MG');
+                if (!this._QTEActive) {
+                    this.UIController.ActiveQTE(other, 'MG');
+                    this._QTEActive = true;
+                }
                 break;
             case "hammer":
                 this._countHM += 5;

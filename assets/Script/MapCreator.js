@@ -105,7 +105,7 @@ cc.Class({
                 var node = cc.instantiate(this._Game.getComponent('Game').player);
                 var scene = cc.director.getScene();
                 node.setPosition(i * this.brickSize + (this.brickSize / 2), (yNumbers - 2) * this.brickSize + (this.brickSize / 2));
-                scene.addChild(node, 100, 'player');
+                scene.addChild(node, 1, 'player');
                 break;
             }
         }
@@ -141,6 +141,7 @@ cc.Class({
                 }
             }
         }
+        console.log(scene);
     },
 
     serventName: function (index) {

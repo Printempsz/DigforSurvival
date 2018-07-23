@@ -14,30 +14,52 @@ http.listen(7777, function(){
 });
 
 var PlayerData = [];
+var already = [];
+
+/*
+  PlayerDate = [
+    {
+      "key": "xxxx",
+      "info": {
+                x:x,
+                y:y,
+                curKey:curKey
+              }
+    },
+    {
+      ...
+    }
+    ...
+  ]   
+
+
+*/
+
 
 io.on('connection',function(socket) {
     var key = uuid();
     console.log('one player join');
     socket.emit('join_successful',key); //向建立该连接的用户发送
     socket.on('init',function(data) {
-      PlayerData[key] = {};
-      PlayerData[key].x = data.x;
-      PlayerData[key].y = data.y;
-      PlayerData[key].curKey = data.curKey;
-      // console.log(PlayerData)
-      var already = [];
-      for (var mykey in PlayerData) {
-        if (mykey != key) {
-          already.push({
-            key: mykey,
-            info: PlayerData[mykey]
-          });
-        }
+      var info = {
+        x : data.x,
+        y : data.y,
+        curKey : data.curKey
+      };
+      var index;
+      for(index in PlayerData) {
+          already.push(PlayerData[index]);
       }
+      var pos = PlayerData.length;
+      PlayerData.push({
+        key:key,
+        info:info
+      });
       socket.emit('GetAlreadyPlayers',already);
+
       socket.broadcast.emit('otherJoin', {
         key: key,
-        info: PlayerData[key]
+        info: PlayerData[pos].info
       });
     });
     //向其他用户发送
@@ -45,12 +67,14 @@ io.on('connection',function(socket) {
 
 
     socket.on('position',function(data) {
-      PlayerData[data.key].x = data.x;
-      PlayerData[data.key].y = data.y;
-      PlayerData[data.key].curKey = data.curKey;
-      // console.log(PlayerData);
-      socket.broadcast.emit('otherPosition',PlayerData);
-      // console.log(PlayerData);
+      for(var index in PlayerData) {
+        if(PlayerData[index].key == data.key) {
+          PlayerData[index].info.x = data.x;
+          PlayerData[index].info.y = data.y;
+          PlayerData[index].info.curKey = data.curKey;
+          socket.emit('otherPosition', PlayerData);
+        }
+      }
     })
 });
 

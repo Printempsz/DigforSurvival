@@ -69,6 +69,8 @@ cc.Class({
     start () {
         this.player = cc.find('player');
         this.counter = this.player.getComponent('SuppliesController');
+        console.log(this.player)
+        console.log(this.counter)
         this.node.parent.zIndex = 100;
         this.QTE.zIndex = 100;
     },

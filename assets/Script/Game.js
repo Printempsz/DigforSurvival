@@ -26,6 +26,10 @@ cc.Class({
         QTE: {
             default: null,
             type: cc.Node
+        },
+        Net:{
+            default: null,
+            type: cc.Node
         }
     },
 
@@ -40,17 +44,25 @@ cc.Class({
         this.camera.getComponent('CameraController').enabled = false;
         this.UIController.getComponent('UIController').enabled = false;
         this.QTE.getComponent('QTEController').enabled = false;
+        this.Net.getComponent('NetController').enabled = false;
         var self = this;
         var players = [];
         cc.loader.loadResDir("Prefabs/players", function (err, prefabs) {
             var index = Math.floor(Math.random() * prefabs.length);
             self.player = prefabs[index];
-            // console.log(self.map)
+            console.log('load player');
             self.map.getComponent('MapCreator').enabled = true;
             self.camera.getComponent('CameraController').enabled = true;
             self.UIController.getComponent('UIController').enabled = true;
             self.QTE.getComponent('QTEController').enabled = true;
-
+            cc.loader.loadResDir("Prefabs/OtherPlayers", function (err, prefabs) {
+                console.log('load others')
+                console.log(prefabs)
+                var NetController = self.Net.getComponent('NetController');
+                NetController.enabled = true;
+                NetController.otherPlayers = prefabs;
+                console.log(NetController)
+            });
         });
     },
 

@@ -45,7 +45,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     MapCreator: function (map, SupplisePosition) {
-        console.log("map")
+        // console.log("map")
         this._Game = cc.find("Game");
         var mapWidth = this.MapWidth;
         var mapHeight = this.MapHeight;
@@ -97,17 +97,17 @@ cc.Class({
                 var servant = cc.instantiate(this.servants[0]);
                 servant.tag = this.serventName(0);
                 servant.setPosition(SupplisePosition[i].x, SupplisePosition[i].y);
-                servantNode.addChild(servant, 1, 'Servant_' + this.serventName(0) + '_' + servant_id++);
+                servantNode.addChild(servant, 1, SupplisePosition[i].name);
             } else if (SupplisePosition[i].type === 'DEF') {
                 var servant = cc.instantiate(this.servants[1]);
                 servant.tag = this.serventName(1);
                 servant.setPosition(SupplisePosition[i].x, SupplisePosition[i].y);
-                servantNode.addChild(servant, 1, 'Servant_' + this.serventName(1) + '_' + servant_id++);
+                servantNode.addChild(servant, 1, SupplisePosition[i].name);
             } else if (SupplisePosition[i].type === 'MG') {
                 var servant = cc.instantiate(this.servants[2]);
                 servant.tag = this.serventName(2);
                 servant.setPosition(SupplisePosition[i].x, SupplisePosition[i].y);
-                servantNode.addChild(servant, 1, 'Servant_' + this.serventName(2) + '_' + servant_id++);
+                servantNode.addChild(servant, 1,SupplisePosition[i].name);
             } else if (SupplisePosition[i].type === 'HPbag') {
                 var HPbag = cc.instantiate(this.HPbag);
                 HPbag.tag = 'HPbag';

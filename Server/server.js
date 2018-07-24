@@ -53,6 +53,7 @@ for (var i = 0; i < yNumbers - 2; i++) {
             SupplisePosition.push(
               {
                 type: 'ATK',
+                name: 'ATK_'+i+'_'+j,
                 x: (j + 1) * brickSize + (brickSize / 2),
                 y: (i + 1) * brickSize + (brickSize / 2)
               }
@@ -63,6 +64,7 @@ for (var i = 0; i < yNumbers - 2; i++) {
             SupplisePosition.push(
               {
                 type: 'DEF',
+                name: 'DEF_'+i+'_'+j,
                 x: (j + 1) * brickSize + (brickSize / 2),
                 y: (i + 1) * brickSize + (brickSize / 2)
               }
@@ -73,6 +75,7 @@ for (var i = 0; i < yNumbers - 2; i++) {
             SupplisePosition.push(
               {
                 type: 'MG',
+                name: 'MG_'+i+'_'+j,
                 x: (j + 1) * brickSize + (brickSize / 2),
                 y: (i + 1) * brickSize + (brickSize / 2)
               }
@@ -135,7 +138,7 @@ io.on('connection',function(socket) {
 
 
     socket.on('position',function(data) {
-      console.log(data.key)
+      // console.log(data.key)
       var info = {
         x: data.x,
         y: data.y,
@@ -147,6 +150,21 @@ io.on('connection',function(socket) {
       }
       PlayerData[data.key] = obj
       socket.broadcast.emit('otherPosition', obj);
+    })
+
+    socket.on('attack',function(data) {
+      socket.broadcast.emit('otherATK');
+    })
+
+    socket.on('deleteServant',function(data) {
+      console.log(data);
+      for(var index in SupplisePosition) {
+        if(SupplisePosition[index].name === data) {
+          SupplisePosition.splice(index, 1);
+          socket.broadcast.emit('deleteServant',data);
+          break;
+        }
+      }
     })
 
     socket.on('disconnect', function () {

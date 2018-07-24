@@ -15,13 +15,19 @@ cc.Class({
         
     },
 
+    postDeleteServant(data) {
+        console.log(data);
+        if(this.localPlayer != null) {
+            //data is servant name&id (string)
+            this.socket.emit('deleteServant',data);
+        }
+    },
+
     start () {
         this.CamreaController = cc.find('Camera').getComponent('CameraController');
         this.socket = window.io("http://localhost:7777");
         var self = this;
         this.socket.on('join_successful',function(data) {
-            console.log('init')
-            console.log(data)
             self.key = data.key;
             self.MapController.MapWidth = data.mapWidth;
             self.MapController.MapHeight = data.mapHeight;
@@ -34,12 +40,12 @@ cc.Class({
             self.localPlayer = cc.find('player');
             self.curKey = self.localPlayer.getComponent('PlayerAnimationController');
             self.isUpadte = true;
-            
+            self.SuppliesController = self.localPlayer.getComponent('SuppliesController');
         })
+
+
+
         this.socket.on('otherJoin',function(data) {
-            console.log('otherJoin');
-            console.log(data);
-            console.log(self.key);
             var otherPlayers = cc.instantiate(self.otherPlayers[0]);
             self.CamreaController.camera.addTarget(otherPlayers);
             otherPlayers.getComponent('OtherPlayerController').key = data.key;
@@ -50,20 +56,14 @@ cc.Class({
         
         
         this.socket.on('GetAlreadyPlayers',function(data) {
-            console.log(self.key)
-            console.log('already')
-            console.log(data)
             for(var index in data) { 
                     var otherPlayers = cc.instantiate(self.otherPlayers[0]);
                     self.CamreaController.camera.addTarget(otherPlayers);
                     otherPlayers.getComponent('OtherPlayerController').key = data[index].key;
                     var scene = cc.director.getScene();
-                    console.log(data[index]);
                     otherPlayers.setPosition(data[index].info.x, data[index].info.y);
                     scene.addChild(otherPlayers, 1, 'otherPlayer_' + data[index].key);
             }
-            console.log('scene')
-            console.log(cc.director.getScene())
         });
         
         this.socket.on('otherPosition',function(data) {
@@ -87,6 +87,27 @@ cc.Class({
                         Animation.play(AnimationClips[3].name);
                         break;
                 }
+            }
+        })
+
+        setInterval(function() {
+            if(self.SuppliesController != null) {
+                if(self.SuppliesController._ATK > 0) {
+                    self.socket.emit('attack');
+                }
+            }
+        },1000);
+
+        this.socket.on('otherATK',function(data) {
+            if(self.SuppliesController._DEF > 0) self.SuppliesController._DEF--;
+            else self.SuppliesController._HP --;
+            if(self.SuppliesController._HP <1) self.socket.emit('disconnect');
+        })
+
+        this.socket.on('deleteServant',function(data) {
+            console.log('recieved');
+            if(self.SuppliesController != null) {
+                self.SuppliesController.deleteServant(data);
             }
         })
     },

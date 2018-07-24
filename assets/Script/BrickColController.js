@@ -28,12 +28,16 @@ cc.Class({
     },
 
     start () {
+        this.NetController = cc.find('Net').getComponent('NetController');
     },
 
     onCollisionEnter: function (other,self) {
         if(other.node._name == 'flame') {
             this._counter++;
-            if(this._counter > 3) self.node.destroy();
+            if(this._counter > 3) {
+                self.node.destroy();
+                this.NetController.postDeleteBrick(self.node.name);
+            }
         }
     },
 

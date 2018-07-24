@@ -78,14 +78,12 @@ cc.Class({
             for (var j = 0; j < map[i].length; j++) {
                 if (map[i][j] === 1) {
                     var node = cc.instantiate(this.brick);
-                    node.parent = this.node;
                     node.setPosition((j + 1) * this.brickSize, (i + 1) * this.brickSize);
+                    this.node.addChild(node, 1, 'brick_' + i + '_' + j);
                 }
             }
         }
 
-        var servant_id = 0;
-        var HPbag_id = 0;
         var scene = cc.director.getScene();
         var servantNode = new cc.Node();
         servantNode.x = 0;
@@ -112,12 +110,12 @@ cc.Class({
                 var HPbag = cc.instantiate(this.HPbag);
                 HPbag.tag = 'HPbag';
                 HPbag.setPosition(SupplisePosition[i].x, SupplisePosition[i].y);
-                servantNode.addChild(HPbag, 1, 'HPbag_' + HPbag_id++);
-            } else if (SupplisePosition[i].type === 'HPbag') {
+                servantNode.addChild(HPbag, 1, SupplisePosition[i].name);
+            } else if (SupplisePosition[i].type === 'HM') {
                 var hammer = cc.instantiate(this.hammer);
                 hammer.tag = 'hammer';
                 hammer.setPosition(SupplisePosition[i].x, SupplisePosition[i].y);
-                servantNode.addChild(hammer, 1, 'hammer_' + HPbag_id++);
+                servantNode.addChild(hammer, 1, SupplisePosition[i].name);
             }
         }
     },
@@ -139,6 +137,12 @@ cc.Class({
         var scene = cc.director.getScene();
         player.setPosition(playerPosition.x, playerPosition.y);
         scene.addChild(player, 1, 'player');
+    },
+
+    deleteBrick: function (data) {
+        console.log("delete")
+        console.log(data)
+        this.node.getChildByName(data).destroy()
     }
 
     // update (dt) {},

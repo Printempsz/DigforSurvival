@@ -80,6 +80,26 @@ for (var i = 0; i < yNumbers - 2; i++) {
                 y: (i + 1) * brickSize + (brickSize / 2)
               }
             )
+          } else if (flag <= 0.17) {
+            line[j] = 2;
+            SupplisePosition.push(
+              {
+                type: 'HPbag',
+                name: 'HPbag_'+i+'_'+j,
+                x: (j + 1) * brickSize + (brickSize / 2),
+                y: (i + 1) * brickSize + (brickSize / 2)
+              }
+            )
+          } else if (flag <= 0.22) {
+            line[j] = 2;
+            SupplisePosition.push(
+              {
+                type: 'HM',
+                name: 'HM_'+i+'_'+j,
+                x: (j + 1) * brickSize + (brickSize / 2),
+                y: (i + 1) * brickSize + (brickSize / 2)
+              }
+            )
           } else {
             if (i >= yNumbers - 3 - MinPlayerBirthLevel) {
               PossibleBirthPosition.push({
@@ -107,12 +127,13 @@ io.on('connection',function(socket) {
       y: PossibleBirthPosition[ran].y
     }
     PossibleBirthPosition.splice(ran, 1);
+    var playerName = 'player' + clientsCount;
     socket.emit('join_successful',{
       map: map,
       playerPosition: PlayerBirth,
       supplisePosition: SupplisePosition,
       key: _key,
-      playerName: 'player' + clientsCount,
+      playerName: playerName,
       mapHeight: MapHeight,
       mapWidth: MapWidth,
       brickSize: brickSize
@@ -125,6 +146,7 @@ io.on('connection',function(socket) {
 
     PlayerData[_key] = {
       key: _key,
+      name: playerName,
       info: {
         x: PlayerBirth.x,
         y: PlayerBirth.y,
@@ -146,6 +168,7 @@ io.on('connection',function(socket) {
       }
       var obj = {
         key: data.key,
+        name: playerName,
         info: info
       }
       PlayerData[data.key] = obj
@@ -157,7 +180,6 @@ io.on('connection',function(socket) {
     })
 
     socket.on('deleteServant',function(data) {
-      console.log(data);
       for(var index in SupplisePosition) {
         if(SupplisePosition[index].name === data) {
           SupplisePosition.splice(index, 1);
@@ -165,6 +187,13 @@ io.on('connection',function(socket) {
           break;
         }
       }
+    })
+
+    socket.on('deleteBrick',function(data) {
+      console.log(data);
+      socket.broadcast.emit('deleteBrick',data);
+      var split = data.split('_');
+      map[+split[1]][+split[2]] = -1;
     })
 
     socket.on('disconnect', function () {

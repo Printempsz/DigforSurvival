@@ -23,6 +23,14 @@ cc.Class({
         }
     },
 
+    postDeleteBrick(data) {
+        console.log(data);
+        if(this.localPlayer != null) {
+            //data is servant name&id (string)
+            this.socket.emit('deleteBrick',data);
+        }
+    },
+
     start () {
         this.CamreaController = cc.find('Camera').getComponent('CameraController');
         this.socket = window.io("http://localhost:7777");
@@ -31,7 +39,7 @@ cc.Class({
             self.key = data.key;
             self.MapController.MapWidth = data.mapWidth;
             self.MapController.MapHeight = data.mapHeight;
-            self.brickSize = data.brickSize
+            self.brickSize = data.brickSize;
             self.MapController.MapCreator(data.map, data.supplisePosition);
             self.MapController.PlayerCreator(data.playerPosition, data.playerName);
             self.UIController.enabled = true;
@@ -49,6 +57,7 @@ cc.Class({
             var otherPlayers = cc.instantiate(self.otherPlayers[0]);
             self.CamreaController.camera.addTarget(otherPlayers);
             otherPlayers.getComponent('OtherPlayerController').key = data.key;
+            otherPlayers.getChildByName('name').getComponent(cc.Label).string = data.name;
             var scene = cc.director.getScene();
             otherPlayers.setPosition(data.info.x, data.info.y);
             scene.addChild(otherPlayers, 1, 'otherPlayer_' + data.key);
@@ -60,6 +69,7 @@ cc.Class({
                     var otherPlayers = cc.instantiate(self.otherPlayers[0]);
                     self.CamreaController.camera.addTarget(otherPlayers);
                     otherPlayers.getComponent('OtherPlayerController').key = data[index].key;
+                    otherPlayers.getChildByName('name').getComponent(cc.Label).string = data[index].name;
                     var scene = cc.director.getScene();
                     otherPlayers.setPosition(data[index].info.x, data[index].info.y);
                     scene.addChild(otherPlayers, 1, 'otherPlayer_' + data[index].key);
@@ -108,6 +118,12 @@ cc.Class({
             console.log('recieved');
             if(self.SuppliesController != null) {
                 self.SuppliesController.deleteServant(data);
+            }
+        })
+
+        this.socket.on('deleteBrick',function(data) {
+            if(self.MapController != null) {
+                self.MapController.deleteBrick(data);
             }
         })
     },

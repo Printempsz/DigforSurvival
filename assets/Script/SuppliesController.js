@@ -64,7 +64,7 @@ cc.Class({
     },
 
     deleteServant(data) {
-        var servants = cc.find('Servants').getChildByName(data).destroy();
+        cc.find('Servants').getChildByName(data).destroy();
     },
 
     onKeyDown: function (e) {
@@ -99,9 +99,9 @@ cc.Class({
         }
     },
 
-    getSupplies: function (other,type, flag) {
+    getSupplies: function (other, type, flag) {
         this.NetController = cc.find('Net').getComponent('NetController');
-        if (flag) {
+        if (flag && other.node) {
             switch(type) {
                 case "ATK":
                     this.NetController.postDeleteServant(other.node.name)
@@ -152,16 +152,20 @@ cc.Class({
                 }
                 break;
             case "hammer":
-                this.NetController.postDeleteServant(other.node.name)
-                this._countHM += 5;
-                other.node.destroy();
-                this.UIController.PopInfo('HM');
+                if (other.node) {
+                    this.NetController.postDeleteServant(other.node.name)
+                    this._countHM += 5;
+                    other.node.destroy();
+                    this.UIController.PopInfo('HM');
+                }
                 break;
             case "HPbag":
-                this.NetController.postDeleteServant(other.node.name)
-                this._countHPB++;
-                other.node.destroy();
-                this.UIController.PopInfo('HPBag');
+                if (other.node) {
+                    this.NetController.postDeleteServant(other.node.name)
+                    this._countHPB++;
+                    other.node.destroy();
+                    this.UIController.PopInfo('HPBag');
+                }
                 break;
         }
     },

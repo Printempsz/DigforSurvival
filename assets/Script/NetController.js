@@ -59,6 +59,22 @@ cc.Class({
                     // console.log(scene,'otherPlayer_' + data[index].key);
                     // console.log(otherPlayer);
                     otherPlayer.setPosition(data[index].info.x,data[index].info.y);
+                    var Animation = otherPlayer.getComponent(cc.Animation);
+                    var AnimationClips = Animation.getClips();
+                    switch(data[index].info.curKey) {
+                        case 1:
+                            Animation.play(AnimationClips[0].name);
+                            break;
+                        case 2:
+                            Animation.play(AnimationClips[1].name);
+                            break;
+                        case 3:
+                            Animation.play(AnimationClips[2].name);
+                            break;
+                        case 4:
+                            Animation.play(AnimationClips[3].name);
+                            break;
+                    }
                 }
             }
         })

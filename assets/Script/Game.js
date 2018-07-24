@@ -52,15 +52,16 @@ cc.Class({
             self.player = prefabs[index];
             console.log('load player');
             self.map.getComponent('MapCreator').enabled = true;
-            self.camera.getComponent('CameraController').enabled = true;
-            self.UIController.getComponent('UIController').enabled = true;
-            self.QTE.getComponent('QTEController').enabled = true;
             cc.loader.loadResDir("Prefabs/OtherPlayers", function (err, prefabs) {
                 console.log('load others')
                 console.log(prefabs)
                 var NetController = self.Net.getComponent('NetController');
                 NetController.enabled = true;
                 NetController.otherPlayers = prefabs;
+                NetController.MapController = self.map.getComponent('MapCreator');
+                NetController.UIController = self.UIController.getComponent('UIController');
+                NetController.QTE = self.QTE.getComponent('QTEController');
+                NetController.CameraController = self.camera.getComponent('CameraController');
                 console.log(NetController)
             });
         });

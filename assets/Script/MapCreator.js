@@ -44,19 +44,13 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
-        
-    },
-
-    init: function() {
-
-    },
-
-    start () {
+    MapCreator: function (map, SupplisePosition) {
         console.log("map")
         this._Game = cc.find("Game");
-        var mapWidth = this.node.width;
-        var mapHeight = this.node.height;
+        var mapWidth = this.MapWidth;
+        var mapHeight = this.MapHeight;
+        this.node.width = mapWidth;
+        this.node.height = mapHeight;
         var xNumbers = mapWidth/this.brickSize;
         var yNumbers = mapHeight/this.brickSize;
         for(var i = 0; i < xNumbers; i++) {
@@ -79,69 +73,53 @@ cc.Class({
             node.parent = this.node;
             node.setPosition(mapWidth - this.brickSize, i * this.brickSize);
         }
-        var map = [];
-        for (var i = 0; i < yNumbers - 2; i++) {
-            var line = []
-            for (var j = 0; j < xNumbers - 2; j++) {
-                line[j] = Math.random();
-            }
-            map.push(line);
-        }
-        for (var i = 1; i <= yNumbers - 2; i++) {
-            for (var j = 1; j <= xNumbers - 2; j++) {
-                if (map[i - 1][j - 1] >= 0.5) {
-                    map[i - 1][j - 1] = 1;
+
+        for (var i = 0; i < map.length; i++) {
+            for (var j = 0; j < map[i].length; j++) {
+                if (map[i][j] === 1) {
                     var node = cc.instantiate(this.brick);
                     node.parent = this.node;
-                    node.setPosition(j * this.brickSize, i * this.brickSize);
-                } else {
-                    map[i - 1][j - 1] = 0;
+                    node.setPosition((j + 1) * this.brickSize, (i + 1) * this.brickSize);
                 }
             }
         }
-        for (var i = 1; i <= xNumbers - 2; i++) {
-            if (!map[yNumbers - 3][i - 1]) {
-                map[yNumbers - 3][i - 1] = 1;
-                var node = cc.instantiate(this._Game.getComponent('Game').player);
-                var scene = cc.director.getScene();
-                node.setPosition(i * this.brickSize + (this.brickSize / 2), (yNumbers - 2) * this.brickSize + (this.brickSize / 2));
-                scene.addChild(node, 1, 'player');
-                break;
-            }
-        }
+
         var servant_id = 0;
         var HPbag_id = 0;
-        var hammer_id = 0;
         var scene = cc.director.getScene();
         var servantNode = new cc.Node();
+        servantNode.x = 0;
+        servantNode.y = 0;
         scene.addChild(servantNode, 1, 'Servants');
-        for (var i = 1; i <= yNumbers - 2; i++) {
-            for (var j = 1; j <= xNumbers - 2; j++) {
-                if (!map[i - 1][j - 1]) {
-                    var flag = Math.random();
-                    if (flag <= 0.05) {
-                        var index = Math.floor(Math.random() * this.servants.length);
-                        var servant = cc.instantiate(this.servants[index]);
-                        servant.tag = this.serventName(index);
-                        servant.setPosition(j * this.brickSize + (this.brickSize / 2), i * this.brickSize + (this.brickSize / 2));
-                        servantNode.addChild(servant, 1, 'Servant_' + this.serventName(index) + '_' + servant_id++);
-                    }
-                    else if (flag <= 0.1) {
-                        var HPbag = cc.instantiate(this.HPbag);
-                        HPbag.tag = 'HPbag';
-                        HPbag.setPosition(j * this.brickSize + (this.brickSize / 2), i * this.brickSize + (this.brickSize / 2));
-                        servantNode.addChild(HPbag, 1, 'HPbag_' + HPbag_id++);
-                    }
-                    else if (flag <= 0.15) {
-                        var hammer = cc.instantiate(this.hammer);
-                        hammer.tag = 'hammer';
-                        hammer.setPosition(j * this.brickSize + (this.brickSize / 2), i * this.brickSize + (this.brickSize / 2));
-                        servantNode.addChild(hammer, 1, 'hammer_' + HPbag_id++);
-                    }
-                }
+
+        for (var i = 0; i < SupplisePosition.length; i++) {
+            if (SupplisePosition[i].type === 'ATK') {
+                var servant = cc.instantiate(this.servants[0]);
+                servant.tag = this.serventName(0);
+                servant.setPosition(SupplisePosition[i].x, SupplisePosition[i].y);
+                servantNode.addChild(servant, 1, 'Servant_' + this.serventName(0) + '_' + servant_id++);
+            } else if (SupplisePosition[i].type === 'DEF') {
+                var servant = cc.instantiate(this.servants[1]);
+                servant.tag = this.serventName(1);
+                servant.setPosition(SupplisePosition[i].x, SupplisePosition[i].y);
+                servantNode.addChild(servant, 1, 'Servant_' + this.serventName(1) + '_' + servant_id++);
+            } else if (SupplisePosition[i].type === 'MG') {
+                var servant = cc.instantiate(this.servants[2]);
+                servant.tag = this.serventName(2);
+                servant.setPosition(SupplisePosition[i].x, SupplisePosition[i].y);
+                servantNode.addChild(servant, 1, 'Servant_' + this.serventName(2) + '_' + servant_id++);
+            } else if (SupplisePosition[i].type === 'HPbag') {
+                var HPbag = cc.instantiate(this.HPbag);
+                HPbag.tag = 'HPbag';
+                HPbag.setPosition(SupplisePosition[i].x, SupplisePosition[i].y);
+                servantNode.addChild(HPbag, 1, 'HPbag_' + HPbag_id++);
+            } else if (SupplisePosition[i].type === 'HPbag') {
+                var hammer = cc.instantiate(this.hammer);
+                hammer.tag = 'hammer';
+                hammer.setPosition(SupplisePosition[i].x, SupplisePosition[i].y);
+                servantNode.addChild(hammer, 1, 'hammer_' + HPbag_id++);
             }
         }
-        console.log(scene);
     },
 
     serventName: function (index) {
@@ -153,6 +131,14 @@ cc.Class({
             case 2:
                 return 'MG'
         }
+    },
+     
+    PlayerCreator: function (playerPosition, name) {
+        var player = cc.instantiate(this._Game.getComponent('Game').player);
+        player.getChildByName('name').getComponent(cc.Label).string = name;
+        var scene = cc.director.getScene();
+        player.setPosition(playerPosition.x, playerPosition.y);
+        scene.addChild(player, 1, 'player');
     }
 
     // update (dt) {},

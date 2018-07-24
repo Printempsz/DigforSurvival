@@ -4050,6 +4050,11 @@
     "node": {
       "__id__": 101
     },
-    "_enabled": true
+    "_enabled": true,
+    "isUpadte": false,
+    "MapController": null,
+    "UIController": null,
+    "QTE": null,
+    "CameraController": null
   }
 ]

@@ -63,6 +63,10 @@ cc.Class({
         this.QTECOntroller = cc.find('Canvas/UI/QTE').getComponent('QTECOntroller');
     },
 
+    deleteServant(data) {
+        var servants = cc.find('Servants').getChildByName(data).destroy();
+    },
+
     onKeyDown: function (e) {
         switch(e.keyCode) {
             case cc.KEY.y:
@@ -96,21 +100,25 @@ cc.Class({
     },
 
     getSupplies: function (other,type, flag) {
+        this.NetController = cc.find('Net').getComponent('NetController');
         if (flag) {
             switch(type) {
                 case "ATK":
+                    this.NetController.postDeleteServant(other.node.name)
                     this._countATK++;
                     other.node.destroy();
                     this.UIController.PopInfo('ATK');
                     this._QTEActive = false;
                     break;
                 case "DEF":
+                    this.NetController.postDeleteServant(other.node.name)
                     this._countDEF++;
                     other.node.destroy();
                     this.UIController.PopInfo('DEF');
                     this._QTEActive = false;
                     break;
                 case "MG":
+                    this.NetController.postDeleteServant(other.node.name)
                     this._countMG++;
                     other.node.destroy();
                     this.UIController.PopInfo('MG');
@@ -123,7 +131,7 @@ cc.Class({
     },
 
     onCollisionEnter: function (other,self) {
-        //console.log(other.node._tag);
+        this.NetController = cc.find('Net').getComponent('NetController');
         switch(other.node._tag) {
             case "ATK":
                 if (!this._QTEActive) {
@@ -144,11 +152,13 @@ cc.Class({
                 }
                 break;
             case "hammer":
+                this.NetController.postDeleteServant(other.node.name)
                 this._countHM += 5;
                 other.node.destroy();
                 this.UIController.PopInfo('HM');
                 break;
             case "HPbag":
+                this.NetController.postDeleteServant(other.node.name)
                 this._countHPB++;
                 other.node.destroy();
                 this.UIController.PopInfo('HPBag');

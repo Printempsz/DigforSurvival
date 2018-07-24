@@ -169,6 +169,7 @@ cc.Class({
     // onLoad () {},
 
     start () {
+        // this.NetController = cc.find('NetController');
     },
 
     onCollisionEnter: function (other,self) {//产生碰撞

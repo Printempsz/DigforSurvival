@@ -103,6 +103,7 @@ cc.Class({
         setInterval(function() {
             if(self.SuppliesController != null) {
                 if(self.SuppliesController._ATK > 0) {
+                    self.SuppliesController._ATK--;
                     self.socket.emit('attack');
                 }
             }
@@ -110,12 +111,15 @@ cc.Class({
 
         this.socket.on('otherATK',function(data) {
             if(self.SuppliesController._DEF > 0) self.SuppliesController._DEF--;
-            else self.SuppliesController._HP --;
-            if(self.SuppliesController._HP <1) self.socket.emit('disconnect');
+            else self.SuppliesController._HP--;
+            if(self.SuppliesController._HP <1) {
+                self.socket.disconnect();
+                alert('您已死亡,自动离线');
+            }
         })
 
         this.socket.on('deleteServant',function(data) {
-            console.log('recieved');
+            // console.log('recieved');
             if(self.SuppliesController != null) {
                 self.SuppliesController.deleteServant(data);
             }
